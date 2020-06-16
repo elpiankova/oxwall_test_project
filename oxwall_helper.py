@@ -14,7 +14,11 @@ class OxwallHelper:
         self.wait = WebDriverWait(driver, 7)
         self.action = ActionChains(driver)
 
-    def login(self, username, password):
+    def open_login_form(self):
+        login_bt = self.wait.until(EC.element_to_be_clickable(InternalPageLocators.SIGN_IN))
+        login_bt.click()
+
+    def enter_credentials(self, username, password):
         user = self.wait.until(EC.element_to_be_clickable(LoginWindowLocators.USER_FIELD))
         user.clear()
         user.send_keys(username)

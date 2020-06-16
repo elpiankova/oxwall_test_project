@@ -61,3 +61,13 @@ class JoinPageLocators:
     USER_PHOTO = (By.XPATH, "//input[@name= 'userPhoto'and@type='file']")
     APPLY_BT = (By.XPATH, "//input[@value= 'Apply crop'and@type='button']")
     JOIN_BT = (By.XPATH, "//input[@name= 'joinSubmit'and@type='submit']")
+
+
+class PostLocator:
+    POST_TEXT = (By.CLASS_NAME, 'ow_newsfeed_content')
+    POST_USER = (By.CSS_SELECTOR, ".ow_newsfeed_string > a")
+    POST_TIME = (By.CSS_SELECTOR, "a.create_time.ow_newsfeed_date")
+    LIKES_BUTTON = ()
+    LIKES_COUNTER = ()
+    COMMENTS_COUNTER = (By.CLASS_NAME, 'newsfeed_counter_comments')
+    COMMENTS_BUTTON = ()
