@@ -10,7 +10,8 @@ def driver():
     dr = webdriver.Chrome()
     dr.maximize_window()
     dr.get(base_url)
-    return dr
+    yield dr
+    dr.quit()
 
 
 @pytest.fixture()

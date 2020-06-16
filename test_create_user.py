@@ -1,0 +1,16 @@
+def test_create_new_user(driver, oxwall):
+    oxwall.open_sign_up_page()
+    oxwall.input_username_text("Test")
+    oxwall.input_email_text('tania@mail.com')
+    oxwall.input_password_text('demo123')
+    oxwall.input_repeat_password_text('demo123')
+    oxwall.input_real_name('Tania Lopatina')
+    oxwall.select_gender(2)
+    oxwall.select_birthday(day='12', month='Nov', year='1984')
+    oxwall.select_look_for_option([1, 2])
+    oxwall.select_here_for_option([1, 4])
+    oxwall.input_music_text('Music1\nMusic2\nMusic3')
+    oxwall.input_favourite_book_text('Book1\nBook2\nBook3')
+    # oxwall.upload_user_photo('C:\DiskD\TVasylchuk.jpg')
+    oxwall.press_join_button()
+    assert oxwall.get_logged_in_user().text == 'Tania Lopatina'

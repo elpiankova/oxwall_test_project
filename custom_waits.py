@@ -30,6 +30,16 @@ class presence_of_elements_more_than_number:
         if len(els) > self.number:
             return els
 
+class elements_less_than_number:
+    def __init__(self, locator, number):
+        self.locator = locator
+        self.number = number
+
+    def __call__(self, driver):
+        el = driver.find_elements(*self.locator)
+        if len(el) < self.number:
+            return el
+
 
 if __name__ == "__main__":
     from selenium import webdriver
