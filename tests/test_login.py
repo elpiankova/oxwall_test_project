@@ -1,9 +1,14 @@
+import pytest
+
 from pages.internal_pages.dashboard_page import DashboardPage
 from pages.internal_pages.login_page import LoginWindowPage
 from pages.internal_pages.main_page import MainPage
 from value_objects.user import User
 
 
+@pytest.mark.nondestructive
+@pytest.mark.smoke
+@pytest.mark.webtest
 def test_login_positive(driver, main_page, login_page, dashboard_page, user):
     # user = User(username="admin", password="pass", real_name="Admin")
 

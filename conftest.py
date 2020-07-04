@@ -1,10 +1,9 @@
 import os.path
 import json
 import pytest
-from selenium import webdriver
 
 from db.db_connector import OxwallDB
-from oxwall_helper import OxwallHelper
+from pages.oxwall_helper import OxwallHelper
 from pages.internal_pages.dashboard_page import DashboardPage
 from pages.internal_pages.login_page import LoginWindowPage
 from pages.internal_pages.main_page import MainPage
@@ -16,15 +15,21 @@ from value_objects.user import User
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
+def pytest_addoption(parser):
+    parser.addoption("--config", action="store", default="config.json",
+                     help="project config file name")
+
+
 @pytest.fixture(scope="session")
-def config():
-    with open(os.path.join(PROJECT_PATH, "config.json")) as f:
+def config(request):
+    filename = request.config.getoption("--config")
+    with open(os.path.join(PROJECT_PATH, filename)) as f:
         return json.load(f)
 
 
 @pytest.fixture()
-def driver(config, selenium):
-    base_url = config["base_url"]
+def driver(base_url, selenium):
+    # base_url = base_url
     dr = selenium
     dr.maximize_window()
     dr.get(base_url)
@@ -64,6 +69,7 @@ def db(config):
     db = OxwallDB(**config['db'])
     yield db
     db.close()
+
 
 filename = os.path.join(PROJECT_PATH, "data", "user.json")
 with open(filename, encoding="utf8") as f:

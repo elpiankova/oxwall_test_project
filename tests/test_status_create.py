@@ -10,9 +10,14 @@ with open(filename, encoding="utf8") as f:
     post_text_list = json.load(f)
 
 post_text_list.append(random_string(enter=True, spaces=True))
+post_text_list.append(
+    pytest.param(random_string(maxlen=100, spaces=True, whitespases=True),
+                 marks=[pytest.mark.smoke, pytest.mark.xfail])
+)
 
-
-@pytest.mark.parametrize("new_text", post_text_list)
+@pytest.mark.regression
+@pytest.mark.webtest
+@pytest.mark.parametrize("new_text", post_text_list, ids=[str(p) for p in post_text_list])
 def test_create_post(driver, logged_user, new_text, db):
     dashboard_page = DashboardPage(driver)
     count_posts_before = len(dashboard_page.get_posts())
