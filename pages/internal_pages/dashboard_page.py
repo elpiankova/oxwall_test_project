@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.keys import Keys
 
 from custom_waits import presence_of_elements, elements_less_than_number
@@ -26,10 +27,12 @@ class DashboardPage(InternalPage):
         posts = [PostBlock(element) for element in els]
         return posts
 
+    @allure.step("WHEN  When I add a new post with '{text}' text in Dashboard page")
     def create_post(self, text):
         self.post_text_field.send_keys(text)
         self.save_bt.click()
 
+    @allure.step("THEN a new status block appears before old list of posts")
     def wait_new_post_appear(self, number):
         return self.wait.until(presence_of_elements(DashboardPageLocators.POST_TEXT, number + 1))
 

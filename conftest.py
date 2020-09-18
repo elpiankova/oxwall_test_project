@@ -1,6 +1,12 @@
 import os.path
 import json
+
+import allure
 import pytest
+
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 from db.db_connector import OxwallDB
 from pages.oxwall_helper import OxwallHelper
@@ -18,6 +24,8 @@ PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 def pytest_addoption(parser):
     parser.addoption("--config", action="store", default="config.json",
                      help="project config file name")
+    parser.addoption("--browser", action="store", default="Chrome",
+                     help="driver")
 
 
 @pytest.fixture(scope="session")
@@ -28,9 +36,15 @@ def config(request):
 
 
 @pytest.fixture()
-def driver(base_url, selenium):
+def driver(base_url, request):
+    option = request.config.getoption("--browser")
     # base_url = base_url
-    dr = selenium
+    if option.lower() == "chrome":
+        dr = webdriver.Chrome(ChromeDriverManager().install())
+    elif option.lower() == "firefox":
+        dr = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+    # else: #TODO
+    #     pass
     dr.maximize_window()
     dr.get(base_url)
     yield dr
@@ -53,6 +67,7 @@ def login_page(driver):
 def dashboard_page(driver):
     return DashboardPage(driver)
 
+@allure.step("WHEN I'm a logged user")
 @pytest.fixture()
 def logged_user(driver):
     user = User(username="admin", password="pass", real_name="Admin")
@@ -82,5 +97,3 @@ def user(request, db):
     db.create_user(user)
     yield user
     db.delete_user(user)
-
-

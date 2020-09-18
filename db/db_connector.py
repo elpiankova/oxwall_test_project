@@ -1,4 +1,6 @@
 import json
+
+import allure
 import pymysql.cursors
 
 from value_objects.user import User
@@ -72,6 +74,7 @@ class OxwallDB:
                       WHERE `ow_base_user`.`username` = "{user.username}"'''
             cursor.execute(sql)
 
+    @allure.step("Get last post from DB")
     def get_last_text_post(self):
         """ Get post with maximum id that is last added """
         with self.connection.cursor() as cursor:
