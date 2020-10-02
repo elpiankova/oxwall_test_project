@@ -4,7 +4,7 @@
     "host": "localhost",
     "user": "root",
     "password": "mysql",
-    "db": "oxwa824"
+    "db": "oxwall1"
   },
   "admin":{
     "username": "admin",
